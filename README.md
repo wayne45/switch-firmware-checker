@@ -6,11 +6,8 @@ A browser bookmarklet that fetches the latest Nintendo Switch system firmware ve
 
 ### Option A: Open the HTML page
 
-```bash
-open index.html
-```
-
-Drag the green **"Switch FW Version"** button to your bookmarks bar.
+1. Open https://wayne45.github.io/switch-firmware-checker/
+2. Drag the green **"Switch FW Version"** button to your bookmarks bar.
 
 ### Option B: Manual bookmark
 
@@ -19,6 +16,8 @@ Drag the green **"Switch FW Version"** button to your bookmarks bar.
 3. Paste the contents of `bookmarklet.js` as the URL
 
 Click the bookmark from any page to see the latest Switch firmware version in a popup overlay.
+
+![Bookmarklet result](snapshots/bookmarklet-result.png)
 
 ## How it works
 
