@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Switch Firmware Bookmarklet</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0d1117; color: #e6edf3; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+    h1 { font-size: 24px; margin-bottom: 8px; }
+    .subtitle { color: #8b949e; margin-bottom: 32px; font-size: 14px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 32px; max-width: 480px; width: 100%; text-align: center; margin-bottom: 24px; }
+    .version { font-size: 48px; font-weight: bold; color: #00e5ff; margin: 12px 0 4px; }
+    .date { color: #8b949e; font-size: 14px; }
+    .label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #8b949e; }
+    .loading { color: #8b949e; padding: 20px; }
+    .error { color: #f85149; }
+    .bookmarklet-section { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 24px; max-width: 480px; width: 100%; text-align: center; }
+    .bookmarklet-section h2 { font-size: 16px; margin-bottom: 12px; }
+    .bookmarklet-section p { color: #8b949e; font-size: 13px; margin-bottom: 16px; }
+    .bookmarklet-link { display: inline-block; background: #238636; color: #fff; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px; cursor: grab; }
+    .bookmarklet-link:hover { background: #2ea043; }
+    .instructions { color: #8b949e; font-size: 12px; margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <h1>Switch Firmware Version</h1>
+  <p class="subtitle">Latest Nintendo Switch system version from switchbrew.org</p>
+
+  <div class="card" id="result">
+    <div class="loading">Fetching latest version...</div>
+  </div>
+
+  <div class="bookmarklet-section">
+    <h2>Add to Bookmarks</h2>
+    <p>Drag the button below to your bookmarks bar to check the latest Switch firmware from any page.</p>
+    <a class="bookmarklet-link" id="bookmarklet" href="#">Switch FW Version</a>
+    <p class="instructions">Drag this to your bookmarks bar, or right-click &rarr; "Bookmark This Link"</p>
+  </div>
+
+  <script>
+    // Bookmarklet code (minified)
+    var bmCode = "javascript:(function(){var o=document.createElement('div');o.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:999999;display:flex;align-items:center;justify-content:center;';var b=document.createElement('div');b.style.cssText='background:%231a1a2e;color:%23e0e0e0;padding:24px 32px;border-radius:12px;font-family:sans-serif;text-align:center;min-width:300px;box-shadow:0 8px 32px rgba(0,0,0,0.4);';b.innerHTML='<div style=\"font-size:14px;color:%23888;\">Loading...</div>';o.appendChild(b);document.body.appendChild(o);o.addEventListener('click',function(e){if(e.target===o){document.body.removeChild(o);}});fetch('https://switchbrew.org/w/api.php?action=parse&page=System_Versions&format=json&prop=text&origin=*').then(function(r){return r.json();}).then(function(d){var h=d.parse.text['*'];var p=new DOMParser();var doc=p.parseFromString(h,'text/html');var rows=doc.querySelectorAll('table.wikitable tr');var last=rows[rows.length-1];var c=last.querySelectorAll('td');var v=c[0].textContent.trim();var dt=c[1].textContent.trim();b.innerHTML='<div style=\"font-size:12px;text-transform:uppercase;letter-spacing:2px;color:%23888;margin-bottom:8px;\">Nintendo Switch</div><div style=\"font-size:36px;font-weight:bold;color:%230ff;margin-bottom:4px;\">'+v+'</div><div style=\"font-size:14px;color:%23aaa;\">Released: '+dt+'</div><div style=\"margin-top:16px;font-size:11px;color:%23666;\">Click outside to close</div>';}).catch(function(e){b.innerHTML='<div style=\"color:%23f66;\">Error: '+e.message+'</div><div style=\"margin-top:8px;font-size:11px;color:%23666;\">Click outside to close</div>';});})();";
+    document.getElementById('bookmarklet').href = bmCode;
+
+    // Also fetch and display on this page
+    fetch('https://switchbrew.org/w/api.php?action=parse&page=System_Versions&format=json&prop=text&origin=*')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var html = data.parse.text['*'];
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(html, 'text/html');
+        var rows = doc.querySelectorAll('table.wikitable tr');
+        var lastRow = rows[rows.length - 1];
+        var cells = lastRow.querySelectorAll('td');
+        var version = cells[0].textContent.trim();
+        var date = cells[1].textContent.trim();
+        document.getElementById('result').innerHTML =
+          '<div class="label">Latest Firmware</div>' +
+          '<div class="version">' + version + '</div>' +
+          '<div class="date">Released: ' + date + '</div>';
+      })
+      .catch(function(err) {
+        document.getElementById('result').innerHTML =
+          '<div class="error">Failed to fetch: ' + err.message + '</div>';
+      });
+  </script>
+</body>
+</html>

@@ -1,2 +1,31 @@
-# switch-firmware-checker
-A browser bookmarklet that fetches the latest Nintendo Switch system firmware version.
+# Switch Firmware Checker
+
+A browser bookmarklet that fetches the latest Nintendo Switch system firmware version from [switchbrew.org](https://switchbrew.org/wiki/System_Versions).
+
+## Usage
+
+### Option A: Open the HTML page
+
+```bash
+open index.html
+```
+
+Drag the green **"Switch FW Version"** button to your bookmarks bar.
+
+### Option B: Manual bookmark
+
+1. Create a new bookmark in your browser
+2. Set the name to `Switch FW Version`
+3. Paste the contents of `bookmarklet.js` as the URL
+
+Click the bookmark from any page to see the latest Switch firmware version in a popup overlay.
+
+## How it works
+
+- Uses the switchbrew.org MediaWiki API with CORS support (`origin=*`)
+- Parses the System Versions table to extract the latest firmware version and release date
+- Displays the result as an overlay on the current page
+
+## Data source
+
+https://switchbrew.org/w/index.php?title=System_Versions&mobileaction=toggle_view_desktop
