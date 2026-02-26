@@ -17,6 +17,8 @@ A browser bookmarklet that fetches the latest Nintendo Switch system firmware ve
 
 Click the bookmark from any page to see the latest Switch firmware version in a popup overlay.
 
+> **Note:** The bookmarklet may show a "Failed to fetch" error on sites with strict Content Security Policy (CSP) headers, such as github.com and twitter.com. These sites restrict outgoing requests to whitelisted domains only. As a workaround, use the bookmarklet on a simple page (e.g. `about:blank`) or visit the [hosted page](https://wayne45.github.io/switch-firmware-checker/) directly.
+
 ![Bookmarklet result](snapshots/bookmarklet-result.png)
 
 ## How it works
