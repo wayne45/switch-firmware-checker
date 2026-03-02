@@ -19,13 +19,17 @@ javascript:(function(){
       var cells=lastRow.querySelectorAll('td');
       var version=cells[0].textContent.trim();
       var date=cells[1].textContent.trim();
-      box.innerHTML=
-        '<div style="font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#888;margin-bottom:8px;">Nintendo Switch</div>'+
-        '<div style="font-size:36px;font-weight:bold;color:#0ff;margin-bottom:4px;">'+version+'</div>'+
-        '<div style="font-size:14px;color:#aaa;">Released: '+date+'</div>'+
-        '<div style="margin-top:16px;font-size:11px;color:#666;">Click outside to close</div>';
+      box.innerHTML='';
+      var t=document.createElement('div');t.style.cssText='font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#888;margin-bottom:8px;';t.textContent='Nintendo Switch';
+      var vd=document.createElement('div');vd.style.cssText='font-size:36px;font-weight:bold;color:#0ff;margin-bottom:4px;';vd.textContent=version;
+      var dd=document.createElement('div');dd.style.cssText='font-size:14px;color:#aaa;';dd.textContent='Released: '+date;
+      var cl=document.createElement('div');cl.style.cssText='margin-top:16px;font-size:11px;color:#666;';cl.textContent='Click outside to close';
+      box.appendChild(t);box.appendChild(vd);box.appendChild(dd);box.appendChild(cl);
     })
     .catch(function(err){
-      box.innerHTML='<div style="color:#f66;">Error: '+err.message+'</div><div style="margin-top:8px;font-size:11px;color:#666;">Click outside to close</div>';
+      box.innerHTML='';
+      var ed=document.createElement('div');ed.style.cssText='color:#f66;';ed.textContent='Error: '+err.message;
+      var cl=document.createElement('div');cl.style.cssText='margin-top:8px;font-size:11px;color:#666;';cl.textContent='Click outside to close';
+      box.appendChild(ed);box.appendChild(cl);
     });
 })();

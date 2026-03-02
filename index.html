@@ -40,7 +40,7 @@
 
   <script>
     // Bookmarklet code (minified)
-    var bmCode = "javascript:(function(){var o=document.createElement('div');o.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:999999;display:flex;align-items:center;justify-content:center;';var b=document.createElement('div');b.style.cssText='background:%231a1a2e;color:%23e0e0e0;padding:24px 32px;border-radius:12px;font-family:sans-serif;text-align:center;min-width:300px;box-shadow:0 8px 32px rgba(0,0,0,0.4);';b.innerHTML='<div style=\"font-size:14px;color:%23888;\">Loading...</div>';o.appendChild(b);document.body.appendChild(o);o.addEventListener('click',function(e){if(e.target===o){document.body.removeChild(o);}});fetch('https://switchbrew.org/w/api.php?action=parse&page=System_Versions&format=json&prop=text&origin=*').then(function(r){return r.json();}).then(function(d){var h=d.parse.text['*'];var p=new DOMParser();var doc=p.parseFromString(h,'text/html');var rows=doc.querySelectorAll('table.wikitable tr');var last=rows[rows.length-1];var c=last.querySelectorAll('td');var v=c[0].textContent.trim();var dt=c[1].textContent.trim();b.innerHTML='<div style=\"font-size:12px;text-transform:uppercase;letter-spacing:2px;color:%23888;margin-bottom:8px;\">Nintendo Switch</div><div style=\"font-size:36px;font-weight:bold;color:%230ff;margin-bottom:4px;\">'+v+'</div><div style=\"font-size:14px;color:%23aaa;\">Released: '+dt+'</div><div style=\"margin-top:16px;font-size:11px;color:%23666;\">Click outside to close</div>';}).catch(function(e){b.innerHTML='<div style=\"color:%23f66;\">Error: '+e.message+'</div><div style=\"margin-top:8px;font-size:11px;color:%23666;\">Click outside to close</div>';});})();";
+    var bmCode = "javascript:(function(){var o=document.createElement('div');o.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:999999;display:flex;align-items:center;justify-content:center;';var b=document.createElement('div');b.style.cssText='background:%231a1a2e;color:%23e0e0e0;padding:24px 32px;border-radius:12px;font-family:sans-serif;text-align:center;min-width:300px;box-shadow:0 8px 32px rgba(0,0,0,0.4);';b.innerHTML='<div style=\"font-size:14px;color:%23888;\">Loading...</div>';o.appendChild(b);document.body.appendChild(o);o.addEventListener('click',function(e){if(e.target===o){document.body.removeChild(o);}});fetch('https://switchbrew.org/w/api.php?action=parse&page=System_Versions&format=json&prop=text&origin=*').then(function(r){return r.json();}).then(function(d){var h=d.parse.text['*'];var p=new DOMParser();var doc=p.parseFromString(h,'text/html');var rows=doc.querySelectorAll('table.wikitable tr');var last=rows[rows.length-1];var c=last.querySelectorAll('td');var v=c[0].textContent.trim();var dt=c[1].textContent.trim();b.innerHTML='';var t=document.createElement('div');t.style.cssText='font-size:12px;text-transform:uppercase;letter-spacing:2px;color:%23888;margin-bottom:8px;';t.textContent='Nintendo Switch';var vd=document.createElement('div');vd.style.cssText='font-size:36px;font-weight:bold;color:%230ff;margin-bottom:4px;';vd.textContent=v;var dd=document.createElement('div');dd.style.cssText='font-size:14px;color:%23aaa;';dd.textContent='Released: '+dt;var cl=document.createElement('div');cl.style.cssText='margin-top:16px;font-size:11px;color:%23666;';cl.textContent='Click outside to close';b.appendChild(t);b.appendChild(vd);b.appendChild(dd);b.appendChild(cl);}).catch(function(e){b.innerHTML='';var ed=document.createElement('div');ed.style.cssText='color:%23f66;';ed.textContent='Error: '+e.message;var cl=document.createElement('div');cl.style.cssText='margin-top:8px;font-size:11px;color:%23666;';cl.textContent='Click outside to close';b.appendChild(ed);b.appendChild(cl);});})();";
     document.getElementById('bookmarklet').href = bmCode;
 
     // Also fetch and display on this page
@@ -55,14 +55,28 @@
         var cells = lastRow.querySelectorAll('td');
         var version = cells[0].textContent.trim();
         var date = cells[1].textContent.trim();
-        document.getElementById('result').innerHTML =
-          '<div class="label">Latest Firmware</div>' +
-          '<div class="version">' + version + '</div>' +
-          '<div class="date">Released: ' + date + '</div>';
+        var result = document.getElementById('result');
+        result.innerHTML = '';
+        var labelDiv = document.createElement('div');
+        labelDiv.className = 'label';
+        labelDiv.textContent = 'Latest Firmware';
+        var versionDiv = document.createElement('div');
+        versionDiv.className = 'version';
+        versionDiv.textContent = version;
+        var dateDiv = document.createElement('div');
+        dateDiv.className = 'date';
+        dateDiv.textContent = 'Released: ' + date;
+        result.appendChild(labelDiv);
+        result.appendChild(versionDiv);
+        result.appendChild(dateDiv);
       })
       .catch(function(err) {
-        document.getElementById('result').innerHTML =
-          '<div class="error">Failed to fetch: ' + err.message + '</div>';
+        var result = document.getElementById('result');
+        result.innerHTML = '';
+        var errorDiv = document.createElement('div');
+        errorDiv.className = 'error';
+        errorDiv.textContent = 'Failed to fetch: ' + err.message;
+        result.appendChild(errorDiv);
       });
   </script>
 </body>
